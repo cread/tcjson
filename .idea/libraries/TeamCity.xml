@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="TeamCity">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../TeamCity/lib/servlet-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/runtime-util.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/common-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/server-api.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/jdom.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
