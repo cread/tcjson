@@ -17,15 +17,15 @@ Here are some sample HTTP requests.
 
 To see all active builds:
 
-  GET /app/json/api/json
+    GET /app/json/api/json
 
 To see all active builds for a given project:
 
-  GET /app/json/<projectId>/api/json
+    GET /app/json/<projectId>/api/json
 
 To see all active builds for a list of projects:
 
-  GET /app/json/<projectId1>/<projectId2>/<projectId3>/api/json
+    GET /app/json/<projectId1>/<projectId2>/<projectId3>/api/json
 
 Authentication is controlled via the global TeamCity settings. 
 
