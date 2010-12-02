@@ -1,17 +1,13 @@
 package com.phrydde.teamcity;
 
 import com.intellij.openapi.diagnostic.Logger;
-import jetbrains.buildServer.messages.Status;
-import jetbrains.buildServer.serverSide.ProjectManager;
-import jetbrains.buildServer.serverSide.SBuildAgent;
-import jetbrains.buildServer.serverSide.SBuildServer;
-import jetbrains.buildServer.serverSide.SProject;
+import jetbrains.buildServer.serverSide.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
+import java.util.List;
 
 public class JSONMonitorController implements Controller {
     final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
@@ -23,30 +19,35 @@ public class JSONMonitorController implements Controller {
         this.projectManager = projectManager;
     }
 
-    public ModelAndView handleRequest(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        int numberOfProjects = projectManager.getNumberOfProjects();
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String rootURL = server.getRootUrl();
+        JSONViewState state = new JSONViewState(rootURL);
+
+        List<String> requestedProjects = URIParser.getProjectList(request.getRequestURI());
+        if (requestedProjects.size() == 0) {
+            for (SProject project : projectManager.getActiveProjects()) {
+                requestedProjects.add(project.getProjectId());
+            }
+        }
 
         ModelAndView modelAndView = new ModelAndView(new JSONView());
 
-        modelAndView.addObject("url", server.getRootUrl());
-        modelAndView.addObject("numExecutors", server.getBuildAgentManager().<SBuildAgent>getRegisteredAgents().size());
-        modelAndView.addObject("projectCount", numberOfProjects);
-
-        HashMap projects = new HashMap();
-
-        for (int i = 0; i < numberOfProjects; i++) {
-            HashMap p = new HashMap();
-            SProject project = projectManager.getProjects().get(i);
-            System.out.println(" -> project.getName() = " + project.getName());
-            LOG.error(" -> project.getName() = " + project.getName());
-            p.put("name", project.getName());
-            p.put("url", project.getProjectId());
-            p.put("color", project.getStatus());
-
-            projects.put("project-" + String.valueOf(i), p);
+        for (String requestedProject : requestedProjects) {
+            SProject project = projectManager.findProjectById(requestedProject);
+            if (project != null) {
+                List<SBuildType> buildTypes = project.getBuildTypes();
+                for (SBuildType buildType : buildTypes) {
+                    state.addJob(new JobState(buildType.getName(), buildType.getBuildTypeId(), buildType.getStatus().getText()));
+                }
+            } else {
+                // TODO: Given a project that does not exist. Throw a 404?
+            }
         }
 
-        modelAndView.addObject("projects", projects);
+        modelAndView.addObject("ViewState", state);
+        modelAndView.addObject("url", rootURL + "/");
+        modelAndView.addObject("numExecutors", server.getBuildAgentManager().<SBuildAgent>getRegisteredAgents().size());
+
         return modelAndView;
     }
 }

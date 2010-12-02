@@ -1,5 +1,6 @@
 <project name="tcjson" default="build">
     <property name="app" value="tcjson"/>
+    <property name="build.sysclasspath" value="ignore"/>
 
     <tstamp>
         <format property="version" timezone="UTC" pattern="yyyyMMdd"/>
@@ -11,6 +12,7 @@
 
     <path id="build.classpath">
         <fileset dir="lib" includes="*.jar"/>
+        <pathelement location="build/classes"/>
         <fileset dir="${teamcity.home}/lib" includes="*.jar" excludes="${app}*.jar"/>
         <fileset dir="${teamcity.appdir}/lib" includes="*.jar" excludes="${app}*.jar"/>
     </path>
@@ -48,6 +50,16 @@
                target="1.5">
 
             <src path="src/main"/>
+        </javac>
+
+        <mkdir dir="build/test-classes"/>
+        <javac classpathref="build.classpath"
+               destdir="build/test-classes"
+               debug="yes"
+               failonerror="yes"
+               source="1.5"
+               target="1.5">
+
             <src path="src/tests"/>
         </javac>
     </target>
@@ -65,9 +77,7 @@
 
     <target name="jar.app" depends="compile, build.identifier, dir.dist">
         <jar destfile="${distdir}/${app}.jar" compress="false">
-            <fileset dir="build/classes">
-                <exclude name="nat/piazza/tests/**"/>
-            </fileset>
+            <fileset dir="build/classes"/>
             <fileset dir="src">
                 <include name="META-INF/**/*"/>
             </fileset>
@@ -76,9 +86,7 @@
 
     <target name="jar.tests" depends="compile, dir.dist">
         <jar destfile="${distdir}/${app}-tests.jar" compress="false">
-            <fileset dir="build/classes">
-                <include name="nat/piazza/tests/**"/>
-            </fileset>
+            <fileset dir="build/test-classes"/>
         </jar>
     </target>
 
@@ -93,7 +101,6 @@
             <classpath>
                 <path refid="build.classpath"/>
                 <fileset dir="${distdir}" includes="*.jar"/>
-                <fileset dir="src/tests" excludes="*.java"/>
             </classpath>
 
             <formatter type="brief" usefile="no"/>
@@ -101,7 +108,6 @@
             <batchtest haltonfailure="yes">
                 <fileset dir="src/tests">
                     <include name="**/*Tests.java"/>
-                    <exclude name="**/Abstract*"/>
                 </fileset>
             </batchtest>
         </junit>
@@ -110,11 +116,5 @@
     <target name="deploy" depends="clean, run.tests"
             description="Deploys to a local TeamCity server">
         <copy file="${distdir}/${app}.jar" todir="${teamcity.appdir}/lib"/>
-    </target>
-
-    <target name="undeploy">
-        <teamcity action="stop"/>
-        <delete dir="${teamcity.appdir}/lib" includes="${app}.jar"/>
-        <teamcity action="start"/>
     </target>
 </project>

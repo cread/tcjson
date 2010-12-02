@@ -1,0 +1,17 @@
+This is a Server Side Plugin to add JSON and JSONP support to TeamCity.
+
+Install
+
+To install, simply copy the tcjson.jar file to the $TEAMCITY_HOME/webapps/ROOT/WEB-INF/lib directory.
+
+Usage
+
+To see all active builds:
+
+GET /app/json/api/json
+
+To see all active builds for a given project:
+
+GET /app/json/<projectId>/api/json
+
+By default it requires authentication for the project you want to examine.
