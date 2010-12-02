@@ -60,10 +60,30 @@
   <component name="FileColors" enabled="true" enabledForTabs="true" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="JSONMonitorController.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="JSONMonitorController.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONMonitorController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="74" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.6951724">
+            <state line="42" column="74" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JSONView.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="25" selection-start="1492" selection-end="1492" vertical-scroll-proportion="0.6893617">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="JSONViewStateTests.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/tests/com/phrydde/teamcity/JSONViewStateTests.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="13" selection-start="125" selection-end="125" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -96,11 +116,11 @@
         <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/JobState.java" />
         <option value="$PROJECT_DIR$/src/tests/com/phrydde/teamcity/JSONViewStateTests.java" />
         <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONViewState.java" />
-        <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONView.java" />
         <option value="$PROJECT_DIR$/README" />
         <option value="$PROJECT_DIR$/src/tests/com/phrydde/teamcity/URIParserTests.java" />
         <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/URIParser.java" />
         <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONMonitorController.java" />
+        <option value="$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONView.java" />
       </list>
     </option>
   </component>
@@ -526,7 +546,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24946082" sideWeight="0.6618037" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32891247" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -597,15 +617,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/tests/com/phrydde/teamcity/JSONViewStateTests.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="17" selection-start="1310" selection-end="1310" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JobState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="65" selection-start="381" selection-end="381" vertical-scroll-proportion="0.30638298">
@@ -619,13 +630,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="45" selection-start="1640" selection-end="1640" vertical-scroll-proportion="0.0">
-          <folding />
         </state>
       </provider>
     </entry>
@@ -649,10 +653,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONMonitorController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="74" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.6951724">
+        <state line="42" column="74" selection-start="1885" selection-end="1885" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tests/com/phrydde/teamcity/JSONViewStateTests.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="13" selection-start="125" selection-end="125" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/com/phrydde/teamcity/JSONView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="25" selection-start="1492" selection-end="1492" vertical-scroll-proportion="0.6893617">
+          <folding />
         </state>
       </provider>
     </entry>

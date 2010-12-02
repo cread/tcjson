@@ -38,14 +38,14 @@ public class JSONView implements View {
                 .append("\"primaryView\":{")
                 .append("\"name\":\"All\",")
                 .append("\"url\":\"").append(map.get("url")).append("\"")
-                .append(")},")
+                .append("},")
                 .append("\"slaveAgentPort\":0,")
                 .append("\"useCrumbs\":false,")
                 .append("\"useSecurity\":true,")
                 .append("\"views\":[{")
                 .append("\"name\":\"All\",")
                 .append("\"url\":\"").append(map.get("url")).append("\"")
-                .append(")}]")
+                .append("}]")
                 .append("}");
 
         String[] jsonp = request.getParameterValues("jsonp");
