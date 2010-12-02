@@ -91,7 +91,12 @@
     </target>
 
     <target name="build.identifier">
-        <echo file="build/classes/version.properties" message="piazza.version=${version}"/>
+        <echo file="build/classes/version.properties" message="version=${version}${line.separator}" append="false"/>
+        <exec executable="/bin/bash" output="build/classes/version.properties" append="true">
+            <arg value="get-git-info.sh"/>
+        </exec>
+        <!--<echo file="build/classes/version.properties" message="branch=${branch}${line.separator}" append="true"/>-->
+        <!--<echo file="build/classes/version.properties" message="revision=${revision}${line.separator}" append="true"/>-->
     </target>
 
     <target name="run.tests" depends="jars">
