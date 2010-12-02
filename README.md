@@ -3,7 +3,7 @@ Description
 
 tcjson is a Server Side Plugin to add JSON and JSONP support to [TeamCity](http://www.jetbrains.com/teamcity/). It is built to emulate the Hudson JSON API.
 
-Built and tested with TeamCity 5.x. TeamCity 6.x support unknown at the moment.
+Built and tested with TeamCity 5.x. TeamCity 6.x supported too.
 
 Installation
 ============
