@@ -5,9 +5,11 @@
       <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/runtime-util.jar!/" />
       <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/common-api.jar!/" />
       <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/server-api.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/jdom.jar!/" />
       <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring.jar!/" />
       <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/openapi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/jdom.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/util.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

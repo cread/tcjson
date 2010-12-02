@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/tc-hudson.iml" filepath="$PROJECT_DIR$/tc-hudson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tcjson.iml" filepath="$PROJECT_DIR$/tcjson.iml" />
     </modules>
   </component>
 </project>

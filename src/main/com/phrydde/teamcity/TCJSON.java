@@ -16,14 +16,10 @@ public class TCJSON implements MainConfigProcessor {
     public TCJSON(SBuildServer server, ProjectManager projectManager,
                 WebControllerManager webControllerManager, WebResourcesManager webResourcesManager) {
 
-        LOG.info(" *** TC JSON Starting up *** ");
         server.registerExtension(MainConfigProcessor.class, PLUGIN_NAME, this);
 
         webResourcesManager.addPluginResources(PLUGIN_NAME, PLUGIN_NAME + ".jar");
         webControllerManager.registerController("/app/json/**", new JSONMonitorController(server, projectManager));
-
-//        webControllerManager.getPlaceById(PlaceId.ALL_PAGES_FOOTER).addExtension(new PiazzaLinkPageExtension(this));
-        LOG.info(" *** TC JSON Ready ***");
     }
 
     public void readFrom(Element element) {

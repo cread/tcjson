@@ -1,5 +1,7 @@
 package com.phrydde.teamcity;
 
+import com.intellij.openapi.diagnostic.Logger;
+import jetbrains.buildServer.messages.Status;
 import jetbrains.buildServer.serverSide.ProjectManager;
 import jetbrains.buildServer.serverSide.SBuildAgent;
 import jetbrains.buildServer.serverSide.SBuildServer;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 public class JSONMonitorController implements Controller {
+    final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
     private final SBuildServer server;
     private final ProjectManager projectManager;
 
@@ -29,10 +32,18 @@ public class JSONMonitorController implements Controller {
         modelAndView.addObject("numExecutors", server.getBuildAgentManager().<SBuildAgent>getRegisteredAgents().size());
         modelAndView.addObject("projectCount", numberOfProjects);
 
-        HashMap[] projects = new HashMap[numberOfProjects];
+        HashMap projects = new HashMap();
 
-        for (SProject project : projectManager.getProjects()) {
+        for (int i = 0; i < numberOfProjects; i++) {
+            HashMap p = new HashMap();
+            SProject project = projectManager.getProjects().get(i);
             System.out.println(" -> project.getName() = " + project.getName());
+            LOG.error(" -> project.getName() = " + project.getName());
+            p.put("name", project.getName());
+            p.put("url", project.getProjectId());
+            p.put("color", project.getStatus());
+
+            projects.put("project-" + String.valueOf(i), p);
         }
 
         modelAndView.addObject("projects", projects);
