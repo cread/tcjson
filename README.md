@@ -8,7 +8,7 @@ Built and tested with TeamCity 5.x. TeamCity 6.x supported too.
 Installation
 ============
 
-To install, simply copy the tcjson.jar file to the `$TEAMCITY_HOME/webapps/ROOT/WEB-INF/lib` directory and restart your server.
+To install, simply copy the tcjson-[version].zip file to your `~/.BuildServer/plugins` directory and restart your server.
 
 Usage
 =====

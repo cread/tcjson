@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:noNamespaceSchemaLocation="urn:shemas-jetbrains-com:teamcity-plugin-v1-xml">
+  <info>
+    <name>tcjson</name>
+    <display-name>tcjson</display-name>
+    <version>@VERSION@</version>
+    <description>Exposes Hudson-like JSON API</description>
+
+    <vendor>
+      <name>Chris Read</name>
+      <url>http://github.com/cread/tcjson</url>
+    </vendor>
+  </info>
+  <deployment use-separate-classloader="false"/>
+</teamcity-plugin>

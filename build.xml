@@ -9,6 +9,7 @@
     <property name="distdir" value="build/${app}-${version}"/>
     <property name="teamcity.home" location="${basedir}/../TeamCity"/>
     <property name="teamcity.appdir" location="${teamcity.home}/webapps/ROOT/WEB-INF"/>
+    <property name="teamcity.plugindir" location="${user.home}/.BuildServer/plugins"/>
 
     <path id="build.classpath">
         <fileset dir="lib" includes="*.jar"/>
@@ -32,10 +33,15 @@
     </target>
 
     <target name="zip" depends="run.tests">
+        <copy file="teamcity-plugin.xml" todir="${distdir}">
+          <filterset>
+            <filter token="VERSION" value="${version}"/>
+          </filterset>
+        </copy>
         <zip destfile="build/${app}-${version}.zip" compress="true">
-            <fileset dir="build">
-                <include name="${app}-${version}/*.jar"/>
-                <exclude name="**/*-tests*.jar"/>
+            <fileset dir="${distdir}">
+                <include name="**/*"/>
+                <exclude name="*-tests.jar"/>
             </fileset>
         </zip>
     </target>
@@ -69,14 +75,14 @@
     </target>
 
     <target name="dir.dist" depends="dir.build">
-        <mkdir dir="${distdir}"/>
+        <mkdir dir="${distdir}/server"/>
     </target>
 
     <target name="jars"
             depends="jar.app, jar.tests"/>
 
     <target name="jar.app" depends="compile, build.identifier, dir.dist">
-        <jar destfile="${distdir}/${app}.jar" compress="false">
+        <jar destfile="${distdir}/server/${app}.jar" compress="false">
             <fileset dir="build/classes"/>
             <fileset dir="src">
                 <include name="META-INF/**/*"/>
@@ -95,8 +101,6 @@
         <exec executable="/bin/bash" output="build/classes/version.properties" append="true">
             <arg value="get-git-info.sh"/>
         </exec>
-        <!--<echo file="build/classes/version.properties" message="branch=${branch}${line.separator}" append="true"/>-->
-        <!--<echo file="build/classes/version.properties" message="revision=${revision}${line.separator}" append="true"/>-->
     </target>
 
     <target name="run.tests" depends="jars">
@@ -106,6 +110,7 @@
             <classpath>
                 <path refid="build.classpath"/>
                 <fileset dir="${distdir}" includes="*.jar"/>
+                <fileset dir="${distdir}/server" includes="*.jar"/>
             </classpath>
 
             <formatter type="brief" usefile="no"/>
@@ -118,8 +123,8 @@
         </junit>
     </target>
 
-    <target name="deploy" depends="clean, run.tests"
+    <target name="deploy" depends="clean, run.tests, zip"
             description="Deploys to a local TeamCity server">
-        <copy file="${distdir}/${app}.jar" todir="${teamcity.appdir}/lib"/>
+        <copy file="build/${app}-${version}.zip" todir="${teamcity.plugindir}"/>
     </target>
 </project>
