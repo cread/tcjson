@@ -27,5 +27,5 @@ To see all active builds for a list of projects:
 
     GET /app/json/<projectId1>/<projectId2>/<projectId3>/api/json
 
-Authentication is controlled via the global TeamCity settings. 
+Authentication is controlled via the global TeamCity settings. By default it will redirect you to the login page. If you'd like to see a propper 401 response code then simply add `/httpAuth/` to the front of the URL.
 
