@@ -3,6 +3,7 @@ package com.phrydde.teamcity;
 import jetbrains.buildServer.serverSide.MainConfigProcessor;
 import jetbrains.buildServer.serverSide.ProjectManager;
 import jetbrains.buildServer.serverSide.SBuildServer;
+import jetbrains.buildServer.responsibility.SBuildTypeResponsibilityFacade;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
 import jetbrains.buildServer.web.openapi.WebResourcesManager;
 import com.intellij.openapi.diagnostic.Logger;
@@ -14,12 +15,14 @@ public class TCJSON implements MainConfigProcessor {
     public static final String PLUGIN_NAME = TCJSON.class.getSimpleName().toLowerCase();
 
     public TCJSON(SBuildServer server, ProjectManager projectManager,
+                SBuildTypeResponsibilityFacade responsibilityFacade,
                 WebControllerManager webControllerManager, WebResourcesManager webResourcesManager) {
 
         server.registerExtension(MainConfigProcessor.class, PLUGIN_NAME, this);
 
         webResourcesManager.addPluginResources(PLUGIN_NAME, PLUGIN_NAME + ".jar");
-        webControllerManager.registerController("/app/json/**", new JSONMonitorController(server, projectManager));
+        webControllerManager.registerController("/app/json/**", new JSONMonitorController(server,
+              projectManager, responsibilityFacade));
     }
 
     public void readFrom(Element element) {
