@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class URIParser {
     public static List<String> getProjectList(String uri) {
         List<String> list = new ArrayList<String>();
-        Pattern pattern = Pattern.compile("^/app/json/(.*?)/api/json$");
+        Pattern pattern = Pattern.compile("^(?:/httpAuth)*?/app/json/(.*?)/api/json$");
         Matcher matcher = pattern.matcher(uri);
         if (matcher.matches()) {
             String[] ids = matcher.group(1).split("/");
