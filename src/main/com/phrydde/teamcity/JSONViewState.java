@@ -20,13 +20,15 @@ public class JSONViewState {
             for (JobState job : jobs) {
                 data.append("{\"name\":\"").append(job.name)
                         .append("\",\"url\":\"").append(rootURL).append("/viewType.html?buildTypeId=").append(job.id)
+                        .append("\",\"responsible\":\"").append(job.responsible)
+                        .append("\",\"project\":\"").append(job.project)
+                        .append("\",\"secondsElapsed\":\"").append(job.secondsElapsed)
                         .append("\",\"color\":\"").append(job.color).append("\"},");
             }
             data.deleteCharAt(data.length() - 1);
         } else {
             data.append("{}");
         }
-
 
         data.append("],");
         return data.toString();

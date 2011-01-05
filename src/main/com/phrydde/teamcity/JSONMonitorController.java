@@ -2,21 +2,26 @@ package com.phrydde.teamcity;
 
 import com.intellij.openapi.diagnostic.Logger;
 import jetbrains.buildServer.serverSide.*;
+import jetbrains.buildServer.responsibility.SBuildTypeResponsibilityFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 public class JSONMonitorController implements Controller {
     final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
     private final SBuildServer server;
     private final ProjectManager projectManager;
+    private final SBuildTypeResponsibilityFacade responsibilityFacade;
 
-    public JSONMonitorController(SBuildServer server, ProjectManager projectManager) {
+    public JSONMonitorController(SBuildServer server, ProjectManager projectManager,
+                                 SBuildTypeResponsibilityFacade responsibilityFacade) {
         this.server = server;
         this.projectManager = projectManager;
+        this.responsibilityFacade = responsibilityFacade;
     }
 
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -36,8 +41,30 @@ public class JSONMonitorController implements Controller {
             SProject project = projectManager.findProjectById(requestedProject);
             if (project != null) {
                 List<SBuildType> buildTypes = project.getBuildTypes();
+                Date today = new Date();
+                long todaysTime = today.getTime() / 1000;
                 for (SBuildType buildType : buildTypes) {
-                    state.addJob(new JobState(buildType.getName(), buildType.getBuildTypeId(), buildType.getStatus().getText()));
+                    String userName;
+                    try {
+                        userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
+                                   .getResponsibleUser().getUsername();
+                    } catch (NullPointerException e) {
+                        // It's quite likely to not have responsibility assigned for a build failure
+                        userName = "";
+                    }
+                    try {
+                        state.addJob(new JobState(
+                            buildType.getName(),
+                            buildType.getBuildTypeId(),
+                            buildType.getStatus().getText(),
+                            userName,
+                            buildType.getProject().getExtendedName(),
+                            todaysTime - buildType.getLastChangesFinished().getFinishDate().getTime() / 1000 ));
+                    } catch (NullPointerException e) {
+                        // It's possible to have a build that doesn't have any finished builds yet,
+                        // getLastChangesFinished() might therefore return null.
+                        continue;
+                    }
                 }
             } else {
                 // TODO: Given a project that does not exist. Throw a 404?
