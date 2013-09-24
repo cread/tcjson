@@ -44,6 +44,9 @@ public class JSONMonitorController implements Controller {
                 Date today = new Date();
                 long todaysTime = today.getTime() / 1000;
                 for (SBuildType buildType : buildTypes) {
+                    if (buildType.getProject().isArchived()) {
+                        continue;
+                    }
                     String userName;
                     try {
                         userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
@@ -55,10 +58,10 @@ public class JSONMonitorController implements Controller {
                     try {
                         state.addJob(new JobState(
                             buildType.getName(),
-                            buildType.getBuildTypeId(),
+                            buildType.getExternalId(),
                             buildType.getStatus().getText(),
                             userName,
-                            buildType.getProject().getExtendedName(),
+                            buildType.getProject().getExtendedFullName(),
                             todaysTime - buildType.getLastChangesFinished().getFinishDate().getTime() / 1000 ));
                     } catch (NullPointerException e) {
                         // It's possible to have a build that doesn't have any finished builds yet,
