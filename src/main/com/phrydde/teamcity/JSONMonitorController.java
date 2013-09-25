@@ -2,7 +2,7 @@ package com.phrydde.teamcity;
 
 import com.intellij.openapi.diagnostic.Logger;
 import jetbrains.buildServer.serverSide.*;
-import jetbrains.buildServer.responsibility.SBuildTypeResponsibilityFacade;
+import jetbrains.buildServer.responsibility.BuildTypeResponsibilityFacade;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -15,10 +15,10 @@ public class JSONMonitorController implements Controller {
     final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
     private final SBuildServer server;
     private final ProjectManager projectManager;
-    private final SBuildTypeResponsibilityFacade responsibilityFacade;
+    private final BuildTypeResponsibilityFacade responsibilityFacade;
 
     public JSONMonitorController(SBuildServer server, ProjectManager projectManager,
-                                 SBuildTypeResponsibilityFacade responsibilityFacade) {
+                                 BuildTypeResponsibilityFacade responsibilityFacade) {
         this.server = server;
         this.projectManager = projectManager;
         this.responsibilityFacade = responsibilityFacade;
@@ -44,6 +44,9 @@ public class JSONMonitorController implements Controller {
                 Date today = new Date();
                 long todaysTime = today.getTime() / 1000;
                 for (SBuildType buildType : buildTypes) {
+                    if (buildType.getProject().isArchived()) {
+                        continue;
+                    }
                     String userName;
                     try {
                         userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
@@ -55,10 +58,10 @@ public class JSONMonitorController implements Controller {
                     try {
                         state.addJob(new JobState(
                             buildType.getName(),
-                            buildType.getBuildTypeId(),
+                            buildType.getExternalId(),
                             buildType.getStatus().getText(),
                             userName,
-                            buildType.getProject().getExtendedName(),
+                            buildType.getProject().getExtendedFullName(),
                             todaysTime - buildType.getLastChangesFinished().getFinishDate().getTime() / 1000 ));
                     } catch (NullPointerException e) {
                         // It's possible to have a build that doesn't have any finished builds yet,
