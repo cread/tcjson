@@ -1,15 +1,15 @@
 <component name="libraryTable">
   <library name="TeamCity">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../TeamCity/lib/servlet-api.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/openapi.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/jdom.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/util.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/common-api.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/devPackage/runtime/runtime-util.jar!/" />
-      <root url="jar://$PROJECT_DIR$/../TeamCity/webapps/ROOT/WEB-INF/lib/server-api.jar!/" />
+      <root url="jar://$teamcitydistribution$/lib/servlet-api.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/spring.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/openapi.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/jdom.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/util.jar!/" />
+      <root url="jar://$teamcitydistribution$/devPackage/common-api.jar!/" />
+      <root url="jar://$teamcitydistribution$/devPackage/runtime/runtime-util.jar!/" />
+      <root url="jar://$teamcitydistribution$/webapps/ROOT/WEB-INF/lib/server-api.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
