@@ -40,13 +40,10 @@ public class JSONMonitorController implements Controller {
         for (String requestedProject : requestedProjects) {
             SProject project = projectManager.findProjectById(requestedProject);
             if (project != null) {
-                List<SBuildType> buildTypes = project.getBuildTypes();
+                List<SBuildType> buildTypes = project.getOwnBuildTypes();
                 Date today = new Date();
-                long todaysTime = today.getTime() / 1000;
+                long now = today.getTime();
                 for (SBuildType buildType : buildTypes) {
-                    if (buildType.getProject().isArchived()) {
-                        continue;
-                    }
                     String userName;
                     try {
                         userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
@@ -62,7 +59,7 @@ public class JSONMonitorController implements Controller {
                             buildType.getStatus().getText(),
                             userName,
                             buildType.getProject().getExtendedFullName(),
-                            todaysTime - buildType.getLastChangesFinished().getFinishDate().getTime() / 1000 ));
+                            (now - buildType.getLastChangesFinished().getFinishDate().getTime()) / 1000 ));
                     } catch (NullPointerException e) {
                         // It's possible to have a build that doesn't have any finished builds yet,
                         // getLastChangesFinished() might therefore return null.
