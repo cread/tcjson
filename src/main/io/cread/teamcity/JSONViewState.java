@@ -1,4 +1,4 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
 import java.util.ArrayList;
 import java.util.List;

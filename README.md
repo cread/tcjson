@@ -1,9 +1,12 @@
 Description
 ===========
 
-tcjson is a Server Side Plugin to add JSON and JSONP support to [TeamCity](http://www.jetbrains.com/teamcity/). It is built to emulate the Hudson JSON API.
+tcjson is a Server Side Plugin to add JSON and JSONP support to [TeamCity](http://www.jetbrains.com/teamcity/). It is 
+built to emulate the Jenkins/Hudson JSON API.
 
-Built and tested with TeamCity 5.x. TeamCity 6.x supported too.
+Initially built and tested with TeamCity 5.x. 
+
+Current version aimed at TeamCity 8.x.
 
 Installation
 ============
@@ -27,9 +30,5 @@ To see all active builds for a list of projects:
 
     GET /app/json/<projectId1>/<projectId2>/<projectId3>/api/json
 
-Authentication is controlled via the global TeamCity settings. By default it will redirect you to the login page. If you would prefer seeing a propper 401 response code then simply add `/httpAuth/` to the front of the URL.
-
-XFD
----
-
-To use it with [XFD](http://xfd.build-doctor.com/)
+Authentication is controlled via the global TeamCity settings. By default it will redirect you to the login page. If you 
+would prefer seeing a proper 401 response code then simply add `/httpAuth/` to the front of the URL.

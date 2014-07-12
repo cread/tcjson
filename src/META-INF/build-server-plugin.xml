@@ -2,5 +2,5 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans default-autowire="constructor">
-  <bean id="tcjson" class="com.phrydde.teamcity.TCJSON"/>
+  <bean id="tcjson" class="io.cread.teamcity.TCJSON"/>
 </beans>

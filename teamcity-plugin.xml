@@ -5,7 +5,7 @@
     <name>tcjson</name>
     <display-name>tcjson</display-name>
     <version>@VERSION@</version>
-    <description>Exposes Hudson-like JSON API</description>
+    <description>Exposes Jenkins/Hudson style JSON API</description>
 
     <vendor>
       <name>Chris Read</name>

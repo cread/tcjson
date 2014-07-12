@@ -1,5 +1,7 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
+import io.cread.teamcity.JSONViewState;
+import io.cread.teamcity.JobState;
 import junit.framework.TestCase;
 
 public class JSONViewStateTests extends TestCase {

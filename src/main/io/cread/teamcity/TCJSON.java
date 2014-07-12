@@ -1,4 +1,4 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
 import jetbrains.buildServer.serverSide.MainConfigProcessor;
 import jetbrains.buildServer.serverSide.ProjectManager;
@@ -6,12 +6,10 @@ import jetbrains.buildServer.serverSide.SBuildServer;
 import jetbrains.buildServer.responsibility.BuildTypeResponsibilityFacade;
 import jetbrains.buildServer.web.openapi.WebControllerManager;
 import jetbrains.buildServer.web.openapi.WebResourcesManager;
-import com.intellij.openapi.diagnostic.Logger;
 import org.jdom.Element;
 
 
 public class TCJSON implements MainConfigProcessor {
-    final Logger LOG = Logger.getInstance(TCJSON.class.getName());
     public static final String PLUGIN_NAME = TCJSON.class.getSimpleName().toLowerCase();
 
     public TCJSON(SBuildServer server, ProjectManager projectManager,

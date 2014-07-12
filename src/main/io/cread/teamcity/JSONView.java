@@ -1,6 +1,5 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
-import com.intellij.openapi.diagnostic.Logger;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +8,6 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 public class JSONView implements View {
-    final Logger LOG = Logger.getInstance(JSONView.class.getName());
-
     public String getContentType() {
         return "application/json";
     }

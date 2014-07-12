@@ -43,6 +43,9 @@
                 <include name="**/*"/>
                 <exclude name="*-tests.jar"/>
             </fileset>
+            <fileset dir="build/classes">
+                <include name="version.properties"/>
+            </fileset>
         </zip>
     </target>
 
@@ -52,8 +55,8 @@
                destdir="build/classes"
                debug="yes"
                failonerror="yes"
-               source="1.5"
-               target="1.5">
+               source="1.6"
+               target="1.6">
 
             <src path="src/main"/>
         </javac>
@@ -63,8 +66,8 @@
                destdir="build/test-classes"
                debug="yes"
                failonerror="yes"
-               source="1.5"
-               target="1.5">
+               source="1.6"
+               target="1.6">
 
             <src path="src/tests"/>
         </javac>

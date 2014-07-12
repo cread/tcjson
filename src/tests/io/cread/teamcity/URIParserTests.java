@@ -1,5 +1,6 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
+import io.cread.teamcity.URIParser;
 import junit.framework.TestCase;
 
 import java.util.List;

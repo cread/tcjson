@@ -1,4 +1,4 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
 public class JobState {
     public final String name;

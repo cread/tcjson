@@ -1,6 +1,5 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
-import com.intellij.openapi.diagnostic.Logger;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.responsibility.BuildTypeResponsibilityFacade;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 public class JSONMonitorController implements Controller {
-    final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
     private final SBuildServer server;
     private final ProjectManager projectManager;
     private final BuildTypeResponsibilityFacade responsibilityFacade;
