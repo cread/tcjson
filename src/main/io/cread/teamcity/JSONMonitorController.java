@@ -9,7 +9,6 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 public class JSONMonitorController implements Controller {
@@ -45,34 +44,35 @@ public class JSONMonitorController implements Controller {
             SProject project = projectManager.findProjectByExternalId(requestedProject);
             if (project != null) {
                 List<SBuildType> buildTypes = project.getBuildTypes();
-                Date today = new Date();
-                long todaysTime = today.getTime() / 1000;
                 for (SBuildType buildType : buildTypes) {
                     if (buildType.getProject().isArchived()) {
                         continue;
                     }
-                    String userName = "";
 
-                    ResponsibilityEntry buildTypeResponsibility = responsibilityFacade.findBuildTypeResponsibility(buildType);
-                    if (buildTypeResponsibility != null) {
-                        User responsibleUser = buildTypeResponsibility.getResponsibleUser();
-                        userName = responsibleUser.getUsername();
+                    SBuild latestBuild = buildType.getLastChangesStartedBuild();
+                    if (latestBuild != null) {
+                        String userName = "";
+
+                        ResponsibilityEntry buildTypeResponsibility = responsibilityFacade.findBuildTypeResponsibility(buildType);
+                        if (buildTypeResponsibility != null) {
+                            User responsibleUser = buildTypeResponsibility.getResponsibleUser();
+                            userName = responsibleUser.getUsername();
+                        }
+
+                        long elapsed = -1;
+                        if (!latestBuild.isFinished()) {
+                            elapsed = latestBuild.getDuration();
+                        }
+
+                        state.addJob(new JobState(
+                                latestBuild.getBuildTypeName(),
+                                latestBuild.getBuildTypeExternalId(),
+                                latestBuild.getBuildStatus().getText(),
+                                userName,
+                                latestBuild.getProjectExternalId(),
+                                elapsed
+                        ));
                     }
-
-                    long elapsed = -1;
-                    SFinishedBuild lastChangesFinished = buildType.getLastChangesFinished();
-                    if (lastChangesFinished != null) {
-                        elapsed = todaysTime - lastChangesFinished.getFinishDate().getTime() / 1000;
-                    }
-
-                    state.addJob(new JobState(
-                            buildType.getName(),
-                            buildType.getExternalId(),
-                            buildType.getStatus().getText(),
-                            userName,
-                            buildType.getProject().getExtendedFullName(),
-                            elapsed));
-
                 }
             }
         }
