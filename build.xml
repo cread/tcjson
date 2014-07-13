@@ -2,9 +2,7 @@
     <property name="app" value="tcjson"/>
     <property name="build.sysclasspath" value="ignore"/>
 
-    <tstamp>
-        <format property="version" timezone="UTC" pattern="yyyyMMdd"/>
-    </tstamp>
+    <property name="version" value="1.0"/>
 
     <property name="distdir" value="build/${app}-${version}"/>
     <property name="teamcity.home" location="${basedir}/../TeamCity"/>

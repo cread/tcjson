@@ -20,7 +20,7 @@ public class JSONView implements View {
         data.append("{")
                 .append("\"assignedLabels\":[{}],")
                 .append("\"mode\":\"NORMAL\",")
-                .append("\"nodeDescription\":\"TeamCity Hudson clone\",")
+                .append("\"nodeDescription\":\"TeamCity Jenkins/Hudson interface\",")
                 .append("\"nodeName\":\"\",")
                 .append("\"numExecutors\":").append(map.get("numExecutors")).append(",")
                 .append("\"description\":null,");

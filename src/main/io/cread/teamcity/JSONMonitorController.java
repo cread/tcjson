@@ -1,7 +1,9 @@
 package io.cread.teamcity;
 
+import jetbrains.buildServer.responsibility.ResponsibilityEntry;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.responsibility.BuildTypeResponsibilityFacade;
+import jetbrains.buildServer.users.User;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -15,7 +17,8 @@ public class JSONMonitorController implements Controller {
     private final ProjectManager projectManager;
     private final BuildTypeResponsibilityFacade responsibilityFacade;
 
-    public JSONMonitorController(SBuildServer server, ProjectManager projectManager,
+    public JSONMonitorController(SBuildServer server,
+                                 ProjectManager projectManager,
                                  BuildTypeResponsibilityFacade responsibilityFacade) {
         this.server = server;
         this.projectManager = projectManager;
@@ -29,14 +32,17 @@ public class JSONMonitorController implements Controller {
         List<String> requestedProjects = URIParser.getProjectList(request.getRequestURI());
         if (requestedProjects.size() == 0) {
             for (SProject project : projectManager.getActiveProjects()) {
-                requestedProjects.add(project.getProjectId());
+                String externalId = project.getExternalId();
+                if (!requestedProjects.contains(externalId)) {
+                    requestedProjects.add(externalId);
+                }
             }
         }
 
         ModelAndView modelAndView = new ModelAndView(new JSONView());
 
         for (String requestedProject : requestedProjects) {
-            SProject project = projectManager.findProjectById(requestedProject);
+            SProject project = projectManager.findProjectByExternalId(requestedProject);
             if (project != null) {
                 List<SBuildType> buildTypes = project.getBuildTypes();
                 Date today = new Date();
@@ -45,30 +51,29 @@ public class JSONMonitorController implements Controller {
                     if (buildType.getProject().isArchived()) {
                         continue;
                     }
-                    String userName;
-                    try {
-                        userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
-                                   .getResponsibleUser().getUsername();
-                    } catch (NullPointerException e) {
-                        // It's quite likely to not have responsibility assigned for a build failure
-                        userName = "";
+                    String userName = "";
+
+                    ResponsibilityEntry buildTypeResponsibility = responsibilityFacade.findBuildTypeResponsibility(buildType);
+                    if (buildTypeResponsibility != null) {
+                        User responsibleUser = buildTypeResponsibility.getResponsibleUser();
+                        userName = responsibleUser.getUsername();
                     }
-                    try {
-                        state.addJob(new JobState(
+
+                    long elapsed = -1;
+                    SFinishedBuild lastChangesFinished = buildType.getLastChangesFinished();
+                    if (lastChangesFinished != null) {
+                        elapsed = todaysTime - lastChangesFinished.getFinishDate().getTime() / 1000;
+                    }
+
+                    state.addJob(new JobState(
                             buildType.getName(),
                             buildType.getExternalId(),
                             buildType.getStatus().getText(),
                             userName,
                             buildType.getProject().getExtendedFullName(),
-                            todaysTime - buildType.getLastChangesFinished().getFinishDate().getTime() / 1000 ));
-                    } catch (NullPointerException e) {
-                        // It's possible to have a build that doesn't have any finished builds yet,
-                        // getLastChangesFinished() might therefore return null.
-                        continue;
-                    }
+                            elapsed));
+
                 }
-            } else {
-                // TODO: Given a project that does not exist. Throw a 404?
             }
         }
 
