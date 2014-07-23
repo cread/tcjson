@@ -1,7 +1,5 @@
 package io.cread.teamcity;
 
-import io.cread.teamcity.JSONViewState;
-import io.cread.teamcity.JobState;
 import junit.framework.TestCase;
 
 public class JSONViewStateTests extends TestCase {
@@ -18,26 +16,26 @@ public class JSONViewStateTests extends TestCase {
     }
 
     public void testShouldBeAbleToRenderMultipleJobDetails() {
-        state.addJob(new JobState("Job1", "bt3", "ERROR", "buildadmin", "Big Project", 100L));
-        state.addJob(new JobState("Job2", "bt5", "SUCCESS", "jdoe", "Medium Project", 200L));
+        state.addJob(new JobState("Job1", "bt3", "ERROR", "buildadmin", "Big Project", 100L, 300L));
+        state.addJob(new JobState("Job2", "bt5", "SUCCESS", "jdoe", "Medium Project", 200L, 400L));
 
 
         assertEquals("\"jobs\":[" +
-                "{\"name\":\"Job1\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt3\",\"responsible\":\"buildadmin\",\"project\":\"Big Project\",\"secondsElapsed\":\"100\",\"color\":\"red\"}," +
-                "{\"name\":\"Job2\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt5\",\"responsible\":\"jdoe\",\"project\":\"Medium Project\",\"secondsElapsed\":\"200\",\"color\":\"blue\"}" +
+                "{\"name\":\"Job1\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt3\",\"responsible\":\"buildadmin\",\"project\":\"Big Project\",\"buildDuration\":\"100\",\"secondsSinceFinished\":\"300\",\"color\":\"red\"}," +
+                "{\"name\":\"Job2\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt5\",\"responsible\":\"jdoe\",\"project\":\"Medium Project\",\"buildDuration\":\"200\",\"secondsSinceFinished\":\"400\",\"color\":\"blue\"}" +
                 "],", state.renderJobsList());
     }
 
     public void testShouldBeAbleToRenderSingleJobDetails() {
-        state.addJob(new JobState("Job1", "bt3", "ERROR", "rstevens", "Little Project", 300L));
+        state.addJob(new JobState("Job1", "bt3", "ERROR", "rstevens", "Little Project", 300L, 400L));
 
         assertEquals("\"jobs\":[" +
-                "{\"name\":\"Job1\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt3\",\"responsible\":\"rstevens\",\"project\":\"Little Project\",\"secondsElapsed\":\"300\",\"color\":\"red\"}" +
+                "{\"name\":\"Job1\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt3\",\"responsible\":\"rstevens\",\"project\":\"Little Project\",\"buildDuration\":\"300\",\"secondsSinceFinished\":\"400\",\"color\":\"red\"}" +
                 "],", state.renderJobsList());
     }
 
     public void testShouldNotAddDuplicates() {
-        JobState job = new JobState("Job1", "bt3", "SUCCESS", "cread", "Stuff", -1);
+        JobState job = new JobState("Job1", "bt3", "SUCCESS", "cread", "Stuff", -1, -1);
 
         state.addJob(job);
 
@@ -49,7 +47,7 @@ public class JSONViewStateTests extends TestCase {
     }
 
     public void testShouldNotRenderNoElapsedSeconds() {
-        state.addJob(new JobState("Job1", "bt3", "ERROR", "rstevens", "Little Project", -1L));
+        state.addJob(new JobState("Job1", "bt3", "ERROR", "rstevens", "Little Project", -1L, -1));
 
         assertEquals("\"jobs\":[" +
                 "{\"name\":\"Job1\",\"url\":\"http://localhost:8111/viewType.html?buildTypeId=bt3\",\"responsible\":\"rstevens\",\"project\":\"Little Project\",\"color\":\"red\"}" +

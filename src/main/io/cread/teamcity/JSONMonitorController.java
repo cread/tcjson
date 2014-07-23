@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Date;
 
 public class JSONMonitorController implements Controller {
     private final SBuildServer server;
@@ -59,9 +60,16 @@ public class JSONMonitorController implements Controller {
                             userName = responsibleUser.getUsername();
                         }
 
-                        long elapsed = -1;
+                        long duration = -1;
+                        long secondsSinceFinished = -1;
                         if (!latestBuild.isFinished()) {
-                            elapsed = latestBuild.getDuration();
+                            duration = latestBuild.getDuration();
+                        } else {
+                            Date finishDate = latestBuild.getFinishDate();
+                            if (finishDate != null) {
+                                long now = new Date().getTime();
+                                secondsSinceFinished = (now - finishDate.getTime()) / 1000;
+                            }
                         }
 
                         state.addJob(new JobState(
@@ -70,7 +78,8 @@ public class JSONMonitorController implements Controller {
                                 latestBuild.getBuildStatus().getText(),
                                 userName,
                                 latestBuild.getProjectExternalId(),
-                                elapsed
+                                duration,
+                                secondsSinceFinished
                         ));
                     }
                 }
