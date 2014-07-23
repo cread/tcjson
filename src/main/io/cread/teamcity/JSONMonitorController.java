@@ -1,23 +1,23 @@
-package com.phrydde.teamcity;
+package io.cread.teamcity;
 
-import com.intellij.openapi.diagnostic.Logger;
+import jetbrains.buildServer.responsibility.ResponsibilityEntry;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.responsibility.BuildTypeResponsibilityFacade;
+import jetbrains.buildServer.users.User;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 public class JSONMonitorController implements Controller {
-    final Logger LOG = Logger.getInstance(JSONMonitorController.class.getName());
     private final SBuildServer server;
     private final ProjectManager projectManager;
     private final BuildTypeResponsibilityFacade responsibilityFacade;
 
-    public JSONMonitorController(SBuildServer server, ProjectManager projectManager,
+    public JSONMonitorController(SBuildServer server,
+                                 ProjectManager projectManager,
                                  BuildTypeResponsibilityFacade responsibilityFacade) {
         this.server = server;
         this.projectManager = projectManager;
@@ -31,43 +31,49 @@ public class JSONMonitorController implements Controller {
         List<String> requestedProjects = URIParser.getProjectList(request.getRequestURI());
         if (requestedProjects.size() == 0) {
             for (SProject project : projectManager.getActiveProjects()) {
-                requestedProjects.add(project.getProjectId());
+                String externalId = project.getExternalId();
+                if (!requestedProjects.contains(externalId)) {
+                    requestedProjects.add(externalId);
+                }
             }
         }
 
         ModelAndView modelAndView = new ModelAndView(new JSONView());
 
         for (String requestedProject : requestedProjects) {
-            SProject project = projectManager.findProjectById(requestedProject);
+            SProject project = projectManager.findProjectByExternalId(requestedProject);
             if (project != null) {
-                List<SBuildType> buildTypes = project.getOwnBuildTypes();
-                Date today = new Date();
-                long now = today.getTime();
+                List<SBuildType> buildTypes = project.getBuildTypes();
                 for (SBuildType buildType : buildTypes) {
-                    String userName;
-                    try {
-                        userName = responsibilityFacade.findBuildTypeResponsibility( buildType )
-                                   .getResponsibleUser().getUsername();
-                    } catch (NullPointerException e) {
-                        // It's quite likely to not have responsibility assigned for a build failure
-                        userName = "";
-                    }
-                    try {
-                        state.addJob(new JobState(
-                            buildType.getName(),
-                            buildType.getExternalId(),
-                            buildType.getStatus().getText(),
-                            userName,
-                            buildType.getProject().getExtendedFullName(),
-                            (now - buildType.getLastChangesFinished().getFinishDate().getTime()) / 1000 ));
-                    } catch (NullPointerException e) {
-                        // It's possible to have a build that doesn't have any finished builds yet,
-                        // getLastChangesFinished() might therefore return null.
+                    if (buildType.getProject().isArchived()) {
                         continue;
                     }
+
+                    SBuild latestBuild = buildType.getLastChangesStartedBuild();
+                    if (latestBuild != null) {
+                        String userName = "";
+
+                        ResponsibilityEntry buildTypeResponsibility = responsibilityFacade.findBuildTypeResponsibility(buildType);
+                        if (buildTypeResponsibility != null) {
+                            User responsibleUser = buildTypeResponsibility.getResponsibleUser();
+                            userName = responsibleUser.getUsername();
+                        }
+
+                        long elapsed = -1;
+                        if (!latestBuild.isFinished()) {
+                            elapsed = latestBuild.getDuration();
+                        }
+
+                        state.addJob(new JobState(
+                                latestBuild.getBuildTypeName(),
+                                latestBuild.getBuildTypeExternalId(),
+                                latestBuild.getBuildStatus().getText(),
+                                userName,
+                                latestBuild.getProjectExternalId(),
+                                elapsed
+                        ));
+                    }
                 }
-            } else {
-                // TODO: Given a project that does not exist. Throw a 404?
             }
         }
 
