@@ -24,8 +24,11 @@ public class JSONViewState {
                         .append("\",\"url\":\"").append(rootURL).append("/viewType.html?buildTypeId=").append(job.id)
                         .append("\",\"responsible\":\"").append(job.responsible)
                         .append("\",\"project\":\"").append(job.project);
-                if (job.secondsElapsed > 0) {
-                    data.append("\",\"secondsElapsed\":\"").append(job.secondsElapsed);
+                if (job.buildDuration >= 0) {
+                    data.append("\",\"buildDuration\":\"").append(job.buildDuration);
+                }
+                if (job.secondsSinceFinished >= 0) {
+                    data.append("\",\"secondsSinceFinished\":\"").append(job.secondsSinceFinished);
                 }
                 data.append("\",\"color\":\"").append(job.color).append("\"},");
             }
